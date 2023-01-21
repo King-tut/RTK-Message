@@ -16,15 +16,11 @@ const Messages = () => {
   const id = useSelector((state)=> state.persistedReducer.user._id)
   const dispatch = useDispatch();
   const theme = useTheme()
-  //console.log(`This is the ID that I want to log ${id}`)
+  
 
   
     const res =  useGetUserMessageQuery(id, {refetchOnFocus:true});
-    const re = useGetUserMessageQuery(id)
     
-    //console.log(getUserMessage, isLoading)
-   // const res = await getMessageForUser(id)
-    //console.log(`RESPONSE ${res.data}`)
     if(res){
       console.log(`SUGAR ${res.data}`)
     }

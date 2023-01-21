@@ -20,7 +20,9 @@ import {useTheme} from "@mui/material"
 import { setMode, setLogOut} from "../state";
 import {DarkMode,LightMode} from "@mui/icons-material"
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 //import { useSelector } from 'react-redux';
+import { useGetUserMessageQuery } from '../state/api';
 
 
 
@@ -79,6 +81,9 @@ export default function NavBar({isSidebarOpen, setIsSidebarOpen}) {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  
+  
+  
 
 
   
@@ -106,11 +111,33 @@ export default function NavBar({isSidebarOpen, setIsSidebarOpen}) {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  // Badge, read, and unread messages logic
+  
+  const [isSeen, setIsSeen] = useState(false);
+  const id = useSelector((state) => state.persistedReducer.user._id )
+  const res = useGetUserMessageQuery(id);
+  const [initialCount, setInitialCount] = useState(res.data?.length)
+  const newMessages = useGetUserMessageQuery(id, {refetchOnFocus: true})
+  const [messageCount, setMessageCount] = useState(res.data?.length)
+  let recall = newMessages.data?.length;
+  const [finalCount, setFinalCount] = useState()
+
+  console.log(`This is the response that I want ${recall}, ${initialCount}`)
+
   const handleMail = () =>{
     console.log(`The event has been called`)
     navigate("/messages")
+    setMessageCount(0)
+
+    
   }
 
+  if(recall > initialCount){
+    setMessageCount(recall - initialCount)
+    console.log(messageCount)
+
+  }
+  
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -154,7 +181,7 @@ export default function NavBar({isSidebarOpen, setIsSidebarOpen}) {
       
 
         <IconButton  size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
+          <Badge badgeContent={messageCount} color="error">
             <MailIcon onClick={handleMail} />
           </Badge>
         </IconButton>
@@ -229,7 +256,7 @@ export default function NavBar({isSidebarOpen, setIsSidebarOpen}) {
           </IconButton>
 
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
+              <Badge badgeContent={messageCount} color="error">
                 <MailIcon  onClick={handleMail}/>
               </Badge>
             </IconButton>
