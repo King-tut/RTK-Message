@@ -7,7 +7,8 @@ const initialState = {
     messages: [],
     currentUserID: "",
     deliverMessageTo: [],
-    allOfYourMessages: []
+    allOfYourMessages: [],
+    notificationsCount: 0
 }
 
 export const authSlice = createSlice({
@@ -40,6 +41,11 @@ export const authSlice = createSlice({
          setAllOfYourMessages: (state, action) =>{
             state.allOfYourMessages = action.payload
 
+          },
+
+          setNotificationsCount: (state, action) =>{
+            state.notificationsCount = action.payload
+
           }
 
           
@@ -47,5 +53,11 @@ export const authSlice = createSlice({
 
 })
 
-export const {setLogin, setMode, setLogOut,setDeliverMessageTo, setAllOfYourMessages} = authSlice.actions;
+export const {setLogin, 
+              setMode, 
+              setLogOut,
+              setDeliverMessageTo, 
+              setAllOfYourMessages,
+              setNotificationsCount
+            } = authSlice.actions;
 export default authSlice.reducer;

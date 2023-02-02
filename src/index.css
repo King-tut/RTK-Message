@@ -7,3 +7,9 @@ body,
   width: 100%;
   font-family: "Rubik", sans-serif;
 }
+
+.readcolor{
+  background-color: "green";
+  font-size: "50px";
+  background: "purple";
+}

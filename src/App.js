@@ -10,7 +10,10 @@ import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./theme";
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
+import { BrowserRouter,Routes,Route } from 'react-router-dom'; 
 import {Box, useMediaQuery} from '@mui/material'
+import './index.css'
+import  Dashboard  from './components/Dashboard';
 
 
 
@@ -32,6 +35,7 @@ function App() {
           <Route path="/" element={<Layout />}>
           <Route path="/register" element={<Register />} />
           <Route path="/messages" element={<Messages />} />
+          <Route path="/dashboard" element={<Dashboard />} />
             
             
 

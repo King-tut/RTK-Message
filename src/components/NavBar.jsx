@@ -17,12 +17,13 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { useDispatch, useSelector } from "react-redux";
 import {useTheme} from "@mui/material"
-import { setMode, setLogOut} from "../state";
+import { setMode, setLogOut, setNotificationsCount} from "../state";
 import {DarkMode,LightMode} from "@mui/icons-material"
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 //import { useSelector } from 'react-redux';
 import { useGetUserMessageQuery } from '../state/api';
+import { useEffect } from 'react';
 
 
 
@@ -116,27 +117,35 @@ export default function NavBar({isSidebarOpen, setIsSidebarOpen}) {
   const [isSeen, setIsSeen] = useState(false);
   const id = useSelector((state) => state.persistedReducer.user._id )
   const res = useGetUserMessageQuery(id);
-  const [initialCount, setInitialCount] = useState(res.data?.length)
-  const newMessages = useGetUserMessageQuery(id, {refetchOnFocus: true})
+  
+  const notificationsCountInState = useSelector((state)=> state.persistedReducer.notificationsCount?.notificationsCount)
   const [messageCount, setMessageCount] = useState(res.data?.length)
-  let recall = newMessages.data?.length;
-  const [finalCount, setFinalCount] = useState()
-
-  console.log(`This is the response that I want ${recall}, ${initialCount}`)
+  const newMessages = useGetUserMessageQuery(id, {refetchOnFocus: true})
+  
+  let newNotificationsCount = newMessages.data?.length
+  console.log(`This is the response that I want ${newNotificationsCount}, ${messageCount}, ${notificationsCountInState}`)
 
   const handleMail = () =>{
-    console.log(`The event has been called`)
+    //console.log(`The event has been called`)
     navigate("/messages")
-    setMessageCount(0)
-
+   setMessageCount(0)
     
   }
+  
 
-  if(recall > initialCount){
-    setMessageCount(recall - initialCount)
-    console.log(messageCount)
 
-  }
+  
+   
+
+   useEffect(()=>{
+    if(newNotificationsCount > notificationsCountInState){
+      setMessageCount((newNotificationsCount - notificationsCountInState))
+  
+     }
+   },[newNotificationsCount])
+
+  
+  
   
   const menuId = 'primary-search-account-menu';
   const renderMenu = (

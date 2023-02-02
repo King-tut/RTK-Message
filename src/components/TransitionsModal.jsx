@@ -69,7 +69,7 @@ export default function TransitionsModal(refetch) {
         onSubmitProps.resetForm()
         setIsSuccess(true)
         //let ans  =   res
-        console.log(`New New ${res.data}`)
+       // console.log(`New New ${res.data}`)
         refetch(userID)
         
         
@@ -85,7 +85,7 @@ export default function TransitionsModal(refetch) {
       setIsCompose(true)
       setuName(val)// this is the other userName variable
       setReciever(uID)
-      console.log(`From inside the callback ${uName}`)
+      //console.log(`From inside the callback ${uName}`)
       dispatch(setDeliverMessageTo({
         deliverMessageTo: [val,uID]
     }))
